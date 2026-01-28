@@ -1,0 +1,16 @@
+{
+  "name": "fast-flow-helper-extention",
+  "version": "3.0.0",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "esbuild": "^0.27.2"
+  }
+}
