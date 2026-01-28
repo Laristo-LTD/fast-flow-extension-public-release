@@ -1,0 +1,46 @@
+name: Publish Extension Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 3.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repo B
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2️⃣ Download artifacts from Repo A
+      - name: Download extension artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fastflow-extension-release
+          path: .
+
+      # 3️⃣ Verify files
+      - name: Verify artifacts
+        run: |
+          ls -lah
+          test -f fastflow-extension.zip
+          test -f latest.json
+
+      # 4️⃣ Create GitHub Release + upload assets
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: v${{ inputs.version }}
+          files: |
+            fastflow-extension.zip
+            latest.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
